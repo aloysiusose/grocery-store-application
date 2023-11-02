@@ -1,0 +1,16 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: GROCERY_STORE
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/grocerydb
+    username: postgres
+    password: password
+
+  flyway:
+    enabled: true
+    baseline:
+      -on-migrate: true
