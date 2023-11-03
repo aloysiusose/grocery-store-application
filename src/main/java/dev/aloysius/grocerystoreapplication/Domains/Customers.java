@@ -1,22 +1,37 @@
 package dev.aloysius.grocerystoreapplication.Domains;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customers")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Customers extends ApplicationUsers{
+@AllArgsConstructor
+public class Customers{
 
-    private LocalDate customerSince;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+    @SequenceGenerator(name = "user_sequence", allocationSize = 1)
+    private long id;
+    protected String email;
+    protected String username;
+    protected String password;
+    protected String firstName;
+    protected String lastName;
+
+    private LocalDate customerSince = LocalDate.now();
+
+    public Customers(Customers users) {
+        this.username = users.username;
+        this.password = users.password;
+    }
 }

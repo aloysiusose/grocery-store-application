@@ -14,6 +14,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -50,18 +51,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.csrf(AbstractHttpConfigurer::disable).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/api/v1/users/**", "api/v1/products/all**").permitAll();
+            auth.requestMatchers("/api/v1/user/**", "api/v1/products/all**").permitAll();
             auth.anyRequest().authenticated();
         });
         httpSecurity.authenticationProvider(authenticationProvider());
         httpSecurity.oauth2ResourceServer(c ->c.jwt(Customizer.withDefaults()));
-
         return httpSecurity.build();
     }
-
-    private KeyPair keypair() throws NoSuchAlgorithmException {
+@Bean
+    public KeyPair keypair() throws NoSuchAlgorithmException {
         KeyPairGenerator kp = KeyPairGenerator.getInstance("RSA");
         kp.initialize(2048);
 
