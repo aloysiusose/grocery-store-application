@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -29,6 +30,10 @@ public class Customers{
     protected String lastName;
 
     private LocalDate customerSince = LocalDate.now();
+    @OneToMany
+    private Set<ShoppingCart> shoppingCartSet;
+    @OneToMany
+    private Set<Orders> ordersSet;
 
     public Customers(Customers users) {
         this.username = users.username;

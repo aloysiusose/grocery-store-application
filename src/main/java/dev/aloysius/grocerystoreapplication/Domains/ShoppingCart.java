@@ -22,5 +22,12 @@ public class ShoppingCart {
     private BigDecimal totalAmount;
     @OneToMany(mappedBy = "shoppingCart", orphanRemoval = true) //orphan removal is set to true because once a shopping cart item result in an order, the shopping cart is deleted so also are cart items in the db
     private Set<CartItems> cartItems = new LinkedHashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customers customers;
+
+    public void setTotalAmount(){
+
+    }
 
 }

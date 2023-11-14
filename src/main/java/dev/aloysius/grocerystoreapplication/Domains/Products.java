@@ -17,6 +17,8 @@ public class Products {
     private String name;
     private BigDecimal price;
     private boolean inStock;
+    @Enumerated(EnumType.STRING)
+    private ProductCategory productCategory;
     @OneToMany(mappedBy = "products")
     private List<Comment> commentList;
 }

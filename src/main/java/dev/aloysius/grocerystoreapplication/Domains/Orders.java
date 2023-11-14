@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,6 +27,7 @@ public class Orders {
     private String paymentMethod;
     @OneToMany(mappedBy = "orders", orphanRemoval = true)
     private Set<OrderItems> orderItemsSet = new LinkedHashSet<>();
+    private List<CartItems> itemsList;
 
     public void addItems(OrderItems items){
         orderItemsSet.add(items);

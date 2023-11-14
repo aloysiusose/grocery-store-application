@@ -1,4 +1,11 @@
 package dev.aloysius.grocerystoreapplication.Domains.DTO;
 
-public record UserProfileDTO() {
+import java.time.LocalDate;
+
+public record UserProfileDTO(String firstName,
+                             String lastName,
+                             String email,
+                             String username,
+                             LocalDate customerSince, int orderToDate
+                             ) {
 }

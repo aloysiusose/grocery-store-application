@@ -3,8 +3,10 @@ package dev.aloysius.grocerystoreapplication.Service;
 import dev.aloysius.grocerystoreapplication.Domains.ApplicationUsers;
 import dev.aloysius.grocerystoreapplication.Domains.AuthenticationRequest;
 import dev.aloysius.grocerystoreapplication.Domains.Customers;
+import dev.aloysius.grocerystoreapplication.Domains.DTO.UserProfileDTO;
 import dev.aloysius.grocerystoreapplication.Repository.CustomersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -71,5 +73,14 @@ public class AuthenticationService {
     }
 
 
+    public UserProfileDTO myProfile() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        return usersRepository.findByUsername(name).map(AuthenticationService::toUserProfile).orElseThrow();
+    }
 
+    private static UserProfileDTO toUserProfile(Customers customers){
+        return new UserProfileDTO(customers.getFirstName(), customers.getLastName(), customers.getEmail(),
+                customers.getUsername(), customers.getCustomerSince(),
+                customers.getOrdersSet().size());
+    }
 }
